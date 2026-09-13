@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>EventHive — Cliente de prueba (CORS)</title>
+    <style>
+        body { font-family: sans-serif; max-width: 500px; margin: 40px auto; padding: 0 20px; }
+        button { padding: 10px 16px; font-size: 15px; cursor: pointer; }
+        pre { background: #111; color: #0f0; padding: 12px; border-radius: 6px; overflow-x: auto; }
+        .aviso { color: #b00; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <h2>🌐 Cliente de prueba — Checkpoint 5 (CORS)</h2>
+    <p>
+        Este archivo simula "otra página web" tratando de consultar la API
+        de EventHive desde el navegador. No corre en localhost:3000 — corre
+        como archivo abierto directamente, o desde un servidor estático
+        en otro puerto (Live Server, por ejemplo, en el puerto 5500).
+    </p>
+    <p class="aviso">
+        Ábrelo directo con doble clic, o con la extensión "Live Server" de VS Code.
+    </p>
+
+    <button onclick="consultarPerfil()">Consultar comprador #1 en EventHive</button>
+
+    <pre id="resultado">Esperando...</pre>
+
+    <script>
+        async function consultarPerfil() {
+            const salida = document.getElementById("resultado");
+            salida.textContent = "Consultando...";
+
+            try {
+                const respuesta = await fetch("http://localhost:3000/compradores/1");
+                const datos = await respuesta.json();
+                salida.textContent = JSON.stringify(datos, null, 2);
+            } catch (error) {
+                salida.textContent =
+                    "❌ Bloqueado por CORS (revisa la consola del navegador con F12).\n\n" +
+                    error.message;
+            }
+        }
+    </script>
+</body>
+</html>
